@@ -4,6 +4,7 @@ import com.example.sistema_chamado.dtos.customerdto.CustomerRequestDTO;
 import com.example.sistema_chamado.dtos.customerdto.CustomerResponseDTO;
 import com.example.sistema_chamado.dtos.customerdto.CustomerUpdateDTO;
 import com.example.sistema_chamado.services.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<CustomerResponseDTO> createCustomer (@RequestBody CustomerRequestDTO data) {
+    public ResponseEntity<CustomerResponseDTO> createCustomer (@Valid @RequestBody CustomerRequestDTO data) {
         CustomerResponseDTO customerResponseDTO = this.customerService.createCustomer(data);
         return ResponseEntity.status(HttpStatus.CREATED).body(customerResponseDTO);
     }
