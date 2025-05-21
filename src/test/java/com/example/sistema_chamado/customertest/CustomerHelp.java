@@ -1,4 +1,4 @@
-package com.example.sistema_chamado;
+package com.example.sistema_chamado.customertest;
 
 import com.example.sistema_chamado.enums.Perfil;
 import com.example.sistema_chamado.models.Customer;

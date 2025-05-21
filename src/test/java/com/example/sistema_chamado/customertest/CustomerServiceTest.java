@@ -1,4 +1,4 @@
-package com.example.sistema_chamado;
+package com.example.sistema_chamado.customertest;
 
 import com.example.sistema_chamado.dtos.customerdto.CustomerRequestDTO;
 import com.example.sistema_chamado.dtos.customerdto.CustomerResponseDTO;
@@ -70,7 +70,7 @@ class CustomerServiceTest {
     class updateCustomer {
 
         @Test
-        @DisplayName("Teste que deve atualizar os dados dos usuários")
+        @DisplayName("Teste que deve atualizar os dados dos clientes")
         void shouldUpdateACustomerWithSuccess () {
 
             //arrange
@@ -105,7 +105,7 @@ class CustomerServiceTest {
     class deleteCustomer {
 
         @Test
-        @DisplayName("Teste que deve deletar usuário com sucesso")
+        @DisplayName("Teste que deve deletar clientes com sucesso")
         void shouldDeleteACustomerWithSuccess() {
             Integer customerId = 1;
 
@@ -131,6 +131,42 @@ class CustomerServiceTest {
         }
     }
 
+    @Nested
+    class findByCustomer  {
+
+        @Test
+        @DisplayName("Teste que deve procurar clientes com sucesso")
+        void shouldFindACustomerWithSuccess() {
+            Integer customerId = 1;
+            Customer customer = CustomerHelp.buildSavedCustomer();
+
+            doReturn(Optional.of(customer)).when(customerRepository).findById(customerId);
+          Customer findCustomerById =  customerService.findCustomer(customerId);
+
+            assertEquals(1, findCustomerById.getId());
+        }
+    }
+
+    @Test
+    @DisplayName("Teste que deve retornar uma lista de clientes")
+    void shouldFindListCustomerWithSuccess() {
+        String name = "Wilson";
+
+        List<CustomerResponseDTO> ListMocked = List.of(
+                new CustomerResponseDTO(1, "Wilson","wilson.@gmaiil.com", "1234"),
+                new CustomerResponseDTO(2, "Vicente","Vicente.@gmaiil.com", "12345")
+
+        );
+
+        doReturn((ListMocked)).when(customerRepository).findByName(name);
+
+        List<CustomerResponseDTO> findListCustomerByName = customerService.findByName(name);
+
+        assertEquals(2, findListCustomerByName.size());
+        assertEquals("Wilson", findListCustomerByName.getFirst().name());
+        assertEquals("Vicente", findListCustomerByName.get(1).name());
+
+    }
 
 
 }

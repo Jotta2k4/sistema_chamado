@@ -45,6 +45,18 @@ public class Called {
     @ManyToOne @JsonBackReference
     private Technical technical;
 
+    private String techName;
+
+    public String getTechName() {
+        return techName;
+    }
+
+    public void setTechName(String techName) {
+        this.techName = techName;
+    }
+
+
+
     public Integer getId() {
         return id;
     }

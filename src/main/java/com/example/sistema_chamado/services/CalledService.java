@@ -13,6 +13,7 @@ import com.example.sistema_chamado.repositories.TechnicalRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CalledService {
@@ -30,7 +31,10 @@ public class CalledService {
     public CalledResponseDTO createCalled(CalledRequestDTO data) {
         Customer customer = this.customerService.findCustomer(data.customerId());
 
+
         Technical technical = findTechnicalMinCalled();
+        Technical findName = this.technicalRepository.findByName(technical.getName())
+                .orElseThrow(() -> new RuntimeException("Técnico não encontrado na base de dados"));
 
         Called called = new Called();
         called.setTitle(data.title());
@@ -40,6 +44,7 @@ public class CalledService {
         called.setStatus(Status.ABERTO);
         called.setCustomer(customer);
         called.setTechnical(technical);
+        called.setTechName(findName.getName());
 
         Called saved = this.calledRepository.save(called);
 
@@ -65,14 +70,13 @@ public class CalledService {
     }
 
     private Technical findTechnicalMinCalled() {
-        List<Technical> technical = this.technicalRepository.findAll();
+        List<Technical> technicals = this.technicalRepository.findAll();
 
-        if (technical.isEmpty()) {
+        if (technicals.isEmpty()) {
             throw new RuntimeException("Nenhum técnico cadastrado!");
         }
-        List<Technical> listTechnicals = this.technicalRepository.findAll();
 
-        List<Technical> availableTechnicals  = listTechnicals.stream()
+        List<Technical> availableTechnicals  = technicals.stream()
                 .filter(t -> t.getCalled().stream()
                         .filter(called -> called.getStatus() == Status.ABERTO).count() <3)
                 .toList();
