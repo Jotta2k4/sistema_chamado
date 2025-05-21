@@ -1,8 +1,12 @@
 package com.example.sistema_chamado.dtos.customerdto;
 
-public record CustomerUpdateDTO(String name,
-                                String email,
+import jakarta.validation.constraints.NotBlank;
 
-                                String phone,
-                                String password) {
+public record CustomerUpdateDTO(
+        @NotBlank(message = "Insira um nome valido!")
+        String name,
+        String email,
+
+        String phone,
+        String password) {
 }

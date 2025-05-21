@@ -10,7 +10,6 @@ import java.util.Set;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("customer")
 public class CustomerController {
@@ -40,7 +39,7 @@ public class CustomerController {
 
     @PutMapping("{id}")
     public ResponseEntity<CustomerUpdateDTO> updateCustomer (@PathVariable Integer id
-            , @RequestBody CustomerUpdateDTO data) {
+            , @RequestBody @Valid CustomerUpdateDTO data) {
        CustomerUpdateDTO customer = this.customerService.updateCustomer(id, data);
        return ResponseEntity.status(HttpStatus.OK).body(customer);
     }

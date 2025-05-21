@@ -20,21 +20,22 @@ public class CalledService {
     private final CalledRepository calledRepository;
     private final CustomerService customerService;
     private final TechnicalRepository technicalRepository;
+    private final TechnicalService technicalService;
 
     public CalledService(CalledRepository calledRepository,
-                         CustomerService customerService, TechnicalRepository technicalRepository) {
+                         CustomerService customerService, TechnicalRepository technicalRepository, TechnicalService technicalService) {
         this.calledRepository = calledRepository;
         this.customerService = customerService;
         this.technicalRepository = technicalRepository;
-    }
+        this.technicalService = technicalService;
+    }           
 
     public CalledResponseDTO createCalled(CalledRequestDTO data) {
         Customer customer = this.customerService.findCustomer(data.customerId());
 
 
         Technical technical = findTechnicalMinCalled();
-        Technical findName = this.technicalRepository.findByName(technical.getName())
-                .orElseThrow(() -> new RuntimeException("Técnico não encontrado na base de dados"));
+        Technical findName = this.technicalService.findByName(technical.getName());
 
         Called called = new Called();
         called.setTitle(data.title());

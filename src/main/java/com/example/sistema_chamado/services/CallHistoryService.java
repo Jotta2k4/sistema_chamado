@@ -3,6 +3,8 @@ package com.example.sistema_chamado.services;
 import com.example.sistema_chamado.dtos.callhistorydto.CallHistoryDTO;
 import com.example.sistema_chamado.dtos.callhistorydto.CallHistoryResponseDTO;
 import com.example.sistema_chamado.enums.Status;
+import com.example.sistema_chamado.exceptions.CallAlreadyCompleted;
+import com.example.sistema_chamado.exceptions.CallCanceled;
 import com.example.sistema_chamado.models.CallHistory;
 import com.example.sistema_chamado.models.Called;
 import com.example.sistema_chamado.models.Technical;
@@ -27,10 +29,10 @@ public class CallHistoryService {
         Called called = this.calledService.findById(CalledId);
 
         if(called.getStatus() == Status.CONCLUIDO) {
-            throw new RuntimeException("Chamada já foi concluída e não pode ser mais atualizada.");
+            throw new CallAlreadyCompleted("Chamada já foi concluída e não pode ser mais atualizada.");
         }
         if(called.getStatus() == Status.CANCELADO) {
-            throw new RuntimeException("Chamada foi cancelada e não pode ser mais atualizada.");
+            throw new CallCanceled("Chamada foi cancelada e não pode ser mais atualizada.");
         }
 
         Technical technical = called.getTechnical();

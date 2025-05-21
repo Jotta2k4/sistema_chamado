@@ -67,6 +67,18 @@ public class ExceptionGlobalController extends RuntimeException {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
     }
 
+    @ExceptionHandler(CallAlreadyCompleted.class)
+    private ResponseEntity<String> callAlreadyCompleted (CallAlreadyCompleted callAlreadyCompleted){
+        String data = callAlreadyCompleted.getMessage();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
+    }
+
+    @ExceptionHandler(CallCanceled.class)
+    private ResponseEntity<String> callCanceled (CallCanceled callCanceled){
+        String data = callCanceled.getMessage();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     private ResponseEntity<StandardMessageError> dataAlreadyExists () {
         StandardMessageError messageError = new StandardMessageError(409, "Email ou telefone" +
