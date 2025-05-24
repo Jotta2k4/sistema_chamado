@@ -38,45 +38,45 @@ public class ExceptionGlobalController extends RuntimeException {
     }
 
     @ExceptionHandler(CustomerNotFoundByName.class)
-    private ResponseEntity<String> customerNotFoundByName (CustomerNotFoundByName customerNotFoundByName){
-        String data = customerNotFoundByName.getMessage();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
+    private ResponseEntity<StandardMessageError> customerNotFoundByName (CustomerNotFoundByName customerNotFoundByName){
+        StandardMessageError messageError = new StandardMessageError(404, customerNotFoundByName.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageError);
     }
 
     @ExceptionHandler(CustomerPasswordNotExists.class)
-    private ResponseEntity<String> customerPasswordNotExists (CustomerPasswordNotExists customerPasswordNotExists){
-        String data = customerPasswordNotExists.getMessage();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
+    private ResponseEntity<StandardMessageError> customerPasswordNotExists (CustomerPasswordNotExists customerPasswordNotExists){
+        StandardMessageError messageError = new StandardMessageError(404, customerPasswordNotExists.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageError);
     }
 
     @ExceptionHandler(TechnicalNotFoundByName.class)
-    private ResponseEntity<String> technicalNotFoundByName (TechnicalNotFoundByName technicalNotFoundByName){
-        String data = technicalNotFoundByName.getMessage();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
+    private ResponseEntity<StandardMessageError> technicalNotFoundByName (TechnicalNotFoundByName technicalNotFoundByName){
+        StandardMessageError messageError = new StandardMessageError(404, technicalNotFoundByName.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageError);
     }
 
     @ExceptionHandler(TechnicalNotFoundInList.class)
-    private ResponseEntity<String> technicalNotFoundOnList (TechnicalNotFoundInList technicalNotFoundInList){
-        String data = technicalNotFoundInList.getMessage();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
+    private ResponseEntity<StandardMessageError> technicalNotFoundOnList (TechnicalNotFoundInList technicalNotFoundInList){
+        StandardMessageError messageError = new StandardMessageError(404, technicalNotFoundInList.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageError);
     }
 
     @ExceptionHandler(CalledNotFoundById.class)
-    private ResponseEntity<String> calledNotFoundById (CalledNotFoundById calledNotFoundById){
-        String data = calledNotFoundById.getMessage();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
+    private ResponseEntity<StandardMessageError> calledNotFoundById (CalledNotFoundById calledNotFoundById){
+        StandardMessageError messageError = new StandardMessageError(404, calledNotFoundById.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageError);
     }
 
     @ExceptionHandler(CallAlreadyCompleted.class)
-    private ResponseEntity<String> callAlreadyCompleted (CallAlreadyCompleted callAlreadyCompleted){
-        String data = callAlreadyCompleted.getMessage();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
+    private ResponseEntity<StandardMessageError> callAlreadyCompleted (CallAlreadyCompleted callAlreadyCompleted){
+        StandardMessageError messageError = new StandardMessageError(404, callAlreadyCompleted.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageError);
     }
 
     @ExceptionHandler(CallCanceled.class)
-    private ResponseEntity<String> callCanceled (CallCanceled callCanceled){
-        String data = callCanceled.getMessage();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
+    private ResponseEntity<StandardMessageError> callCanceled (CallCanceled callCanceled){
+        StandardMessageError messageError = new StandardMessageError(404, callCanceled.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageError);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
