@@ -33,9 +33,11 @@ public class CustomerService {
         List<CustomerResponseDTO> list = this.customerRepository.findByName(name);
 
         if (list.isEmpty()) {
+            log.info("A lista de clientes está vazia");
             throw new CustomerNotFoundByName("Cliente com o nome " + name + " não encontrado");
         }
 
+        log.info("Clientes encontrado com sucesso");
         return list;
     }
 
@@ -55,7 +57,7 @@ public class CustomerService {
         customer.addPerfil(Perfil.CUSTOMER);
 
         Customer newCustomer =  this.customerRepository.save(customer);
-
+        log.info("Cliente criado com sucesso: {}", data);
         return new CustomerResponseDTO(
                 newCustomer.getId(),
                 newCustomer.getName(),
@@ -66,6 +68,7 @@ public class CustomerService {
 
     public CustomerUpdateDTO updateCustomer (Integer id, CustomerUpdateDTO data) {
         Customer customer = findCustomer(id);
+        log.info("Cliente com ID {}", id + " foi encontrado");
 
         customer.setName(data.name());
         customer.setEmail(data.email());
@@ -73,6 +76,8 @@ public class CustomerService {
         customer.setPassword(data.password());
 
         Customer updateCustomer = this.customerRepository.save(customer);
+        log.info("Cliente atualizado com sucesso");
+
         return new CustomerUpdateDTO(
                 updateCustomer.getName(),
                 updateCustomer.getEmail(),
@@ -84,22 +89,27 @@ public class CustomerService {
 
     @Transactional
     public void deleteCustomer(Integer id) {
+        log.info("Attempting to delete customer with ID: {}", id);
         Customer dta = findCustomer(id);
 
         List<Called> calledList = this.calledRepository.findByCustomerId(id);
 
-        log.info("Senha passada no corpo: ");
-        log.info("Senha salva no banco: ");
-
+        log.info("Verifying password existence for customer ID: {}", id);
         if (dta.getPassword() == null) {
+            log.info("Password check failed for customer ID: {}. Password is null.", id);
             throw new CustomerPasswordNotExists("Senha do cliente está nula!");
+        } else {
+            log.info("Password check successful for customer ID: {}. Password exists.", id); // Log success (INFO)
         }
 
+        log.info("Deleting associated calls for customer ID: {}", id);
         for (Called called : calledList) {
             called.getHistories().clear();
             this.calledRepository.delete(called);
         }
+        log.info("Deleting customer with ID: {}", id);
         this.customerRepository.delete(dta);
+        log.info("Successfully deleted customer with ID: {}", id);
 
     }
 
