@@ -81,7 +81,7 @@ public class ExceptionGlobalController extends RuntimeException {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     private ResponseEntity<StandardMessageError> dataAlreadyExists () {
-        StandardMessageError messageError = new StandardMessageError(409, "Email ou telefone" +
+        StandardMessageError messageError = new StandardMessageError(400, "Email ou telefone" +
                 " já cadastrados");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageError);
     }
