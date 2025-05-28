@@ -3,7 +3,7 @@ package com.example.sistema_chamado.dtos.customerdto;
 import jakarta.validation.constraints.NotBlank;
 
 public record CustomerRequestDTO(
-        @NotBlank(message = "Um nome válido é obrigatório.")
+        @NotBlank(message = "Um nome válido é obrigatório")
         String name,
         @NotBlank(message = "Um email válido é obrigatório.")
         String email,
