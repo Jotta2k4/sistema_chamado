@@ -5,6 +5,8 @@ import com.example.sistema_chamado.dtos.calleddto.CalledResponseDTO;
 import com.example.sistema_chamado.dtos.customerdto.CustomerInfoDTO;
 import com.example.sistema_chamado.enums.Status;
 import com.example.sistema_chamado.exceptions.CalledNotFoundById;
+import com.example.sistema_chamado.exceptions.NoTechnicalAvailable;
+import com.example.sistema_chamado.exceptions.NoTechnicalRegistered;
 import com.example.sistema_chamado.models.Called;
 import com.example.sistema_chamado.models.Customer;
 import com.example.sistema_chamado.models.Technical;
@@ -13,7 +15,6 @@ import com.example.sistema_chamado.repositories.TechnicalRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CalledService {
@@ -74,7 +75,7 @@ public class CalledService {
         List<Technical> technicals = this.technicalRepository.findAll();
 
         if (technicals.isEmpty()) {
-            throw new RuntimeException("Nenhum técnico cadastrado!");
+            throw new NoTechnicalRegistered("Nenhum técnico cadastrado!");
         }
 
         List<Technical> availableTechnicals  = technicals.stream()
@@ -89,6 +90,6 @@ public class CalledService {
                 int qtdCalledT2 = (int) t2.getCalled().stream()
                         .filter(called -> called.getStatus() == Status.ABERTO).count();
                 return Integer.compare(qtdCalledT1, qtdCalledT2);
-        }).orElseThrow(() -> new RuntimeException("Nenhum Técnico disponível no momento"));
+        }).orElseThrow(() -> new NoTechnicalAvailable("Nenhum Técnico disponível no momento"));
     }
 }

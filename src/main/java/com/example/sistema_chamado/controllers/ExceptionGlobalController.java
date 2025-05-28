@@ -10,7 +10,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,6 +57,18 @@ public class ExceptionGlobalController extends RuntimeException {
     @ExceptionHandler(TechnicalNotFoundInList.class)
     private ResponseEntity<StandardMessageError> technicalNotFoundOnList (TechnicalNotFoundInList technicalNotFoundInList){
         StandardMessageError messageError = new StandardMessageError(404, technicalNotFoundInList.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageError);
+    }
+
+    @ExceptionHandler(NoTechnicalRegistered.class)
+    private ResponseEntity<StandardMessageError> noTechnicalRegistered (NoTechnicalRegistered noTechnicalRegistered){
+        StandardMessageError messageError = new StandardMessageError(404, noTechnicalRegistered.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageError);
+    }
+
+    @ExceptionHandler(NoTechnicalAvailable.class)
+    private ResponseEntity<StandardMessageError> noTechnicalAvailable (NoTechnicalAvailable noTechnicalAvailable){
+        StandardMessageError messageError = new StandardMessageError(404, noTechnicalAvailable.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageError);
     }
 
