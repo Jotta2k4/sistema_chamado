@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CalledServiceTest {
@@ -131,6 +131,44 @@ class CalledServiceTest {
 
             assertThrows(CalledNotFoundById.class, () -> calledService.findById(99));
         }
+    }
+    @Test
+    void testFindCalledsResponseByStatusOpenOrInProcess() {
+        // Arrange
+        Customer customer = new Customer();
+        customer.setName("Vicente");
+        customer.setEmail("joao@example.com");
+        customer.setPhone("99999-9999");
+
+        Technical technical = new Technical();
+        technical.setName("Wilson");
+
+        Called chamado1 = new Called();
+        chamado1.setId(1);
+        chamado1.setTitle("Erro no sistema");
+        chamado1.setDescription("Sistema não inicia");
+        chamado1.setPriority(Priority.ALTA);
+        chamado1.setCategory(Category.SOFTWARE);
+        chamado1.setStatus(Status.ABERTO);
+        chamado1.setCustomer(customer);
+        chamado1.setTechnical(technical);
+
+        List<Called> chamados = List.of(chamado1);
+
+        when(calledRepository.findByStatusIn(List.of(Status.ABERTO, Status.ANDAMENTO)))
+                .thenReturn(chamados);
+
+        // Act
+        List<CalledResponseDTO> result = calledService.findCalledsResponseByStatusOpenOrInProgress();
+
+        // Assert
+        assertEquals(1, result.size());
+        CalledResponseDTO dto = result.getFirst();
+        assertEquals("Erro no sistema", dto.title());
+        assertEquals("Wilson", dto.technicalName());
+        assertEquals("Vicente", dto.customer().name());
+
+        verify(calledRepository).findByStatusIn(List.of(Status.ABERTO, Status.ANDAMENTO));
     }
 
 }
