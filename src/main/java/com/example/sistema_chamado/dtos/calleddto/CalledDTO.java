@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record CalledDTO(
+
         Integer id,
         String title,
         String description,

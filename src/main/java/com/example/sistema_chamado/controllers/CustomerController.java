@@ -33,7 +33,7 @@ public class CustomerController {
     })
     public ResponseEntity<List<CustomerResponseDTO>> findByName (
             @Parameter(description = "Nome a ser buscado", example = "name?name=wilson")
-            @RequestParam String name) {
+            @RequestParam @Valid String name) {
         List<CustomerResponseDTO> customerResponseDTO = this.customerService.findByName(name);
         return ResponseEntity.status(HttpStatus.OK).body(customerResponseDTO);
     }
