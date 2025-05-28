@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,7 @@ public class TechnicalController {
             @ApiResponse(responseCode = "201", description = "Técnico criado com sucesso"),
             @ApiResponse(responseCode = "409", description = "Ocorreu algum conflito")
     })
-    public ResponseEntity<TechnicalResponseDTO> createTechnical (@RequestBody TechnicalRequestDTO data) {
+    public ResponseEntity<TechnicalResponseDTO> createTechnical (@RequestBody @Valid TechnicalRequestDTO data) {
        TechnicalResponseDTO technicalResponseDTO = this.technicalService.createTechnical(data);
         return ResponseEntity.status(HttpStatus.CREATED).body(technicalResponseDTO);
     }

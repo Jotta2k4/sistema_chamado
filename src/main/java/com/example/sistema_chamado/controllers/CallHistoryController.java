@@ -6,6 +6,7 @@ import com.example.sistema_chamado.services.CallHistoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class CallHistoryController {
             @ApiResponse(responseCode = "200", description = "Histórico chamado criado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Chamado não encontrado")
     })
-    public ResponseEntity<CallHistoryDTO> createLog (@RequestBody CallHistoryResponseDTO data, @PathVariable Integer calledId) {
+    public ResponseEntity<CallHistoryDTO> createLog (@RequestBody @Valid CallHistoryResponseDTO data, @PathVariable Integer calledId) {
         CallHistoryDTO newCallHistory = this.callHistoryService.createHistoricCall(data, calledId);
         return ResponseEntity.status(HttpStatus.OK).body(newCallHistory);
     }

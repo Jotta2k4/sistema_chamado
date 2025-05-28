@@ -6,6 +6,7 @@ import com.example.sistema_chamado.services.CalledService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class CalledController {
             @ApiResponse(responseCode = "404", description = "Cliente relacionado ao chamado não foi encontrado"),
             @ApiResponse(responseCode = "400", description = "Não possui técnico disponível no momento")
     })
-    public ResponseEntity<CalledResponseDTO> createCalled (@RequestBody CalledRequestDTO data) {
+    public ResponseEntity<CalledResponseDTO> createCalled (@RequestBody @Valid CalledRequestDTO data) {
         CalledResponseDTO called = this.calledService.createCalled(data);
         return ResponseEntity.status(HttpStatus.CREATED).body(called);
     }
