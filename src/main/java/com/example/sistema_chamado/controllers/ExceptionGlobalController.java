@@ -80,14 +80,14 @@ public class ExceptionGlobalController extends RuntimeException {
 
     @ExceptionHandler(CallAlreadyCompleted.class)
     private ResponseEntity<StandardMessageError> callAlreadyCompleted (CallAlreadyCompleted callAlreadyCompleted){
-        StandardMessageError messageError = new StandardMessageError(404, callAlreadyCompleted.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageError);
+        StandardMessageError messageError = new StandardMessageError(400, callAlreadyCompleted.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageError);
     }
 
     @ExceptionHandler(CallCanceled.class)
     private ResponseEntity<StandardMessageError> callCanceled (CallCanceled callCanceled){
-        StandardMessageError messageError = new StandardMessageError(404, callCanceled.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageError);
+        StandardMessageError messageError = new StandardMessageError(400, callCanceled.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageError);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
